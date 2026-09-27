@@ -24,7 +24,7 @@ jobs:
           test -s README.md
           test -s AGENTS.md
           test -s .github/ISSUE_TEMPLATE/task.md
-          grep -Fq 'DevMap v1.1 是一个零代码开发地图 Skill' README.md
+          grep -Fq 'DevMap v1.2 是一个零代码开发地图 Skill' README.md
           grep -Fq 'G-lite v3.4' README.md
           grep -Fq 'G-lite v3.4' AGENTS.md
           grep -Fq 'jev-docs' AGENTS.md
