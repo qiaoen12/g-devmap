@@ -19,9 +19,3 @@ DevMap 是独立 Skill，可由开发 Harness 显式调用；它不属于 G-lite
 已有完整 Execution Plan 时，只核对与方案相关的当前 HEAD、文件、ownership 和验证入口。匹配则直接复用；小范围漂移只修正受影响 Task；核心前提失效才重规划相关部分。计划中的新增文件尚不存在不算漂移。没有计划时，从非结构化需求和当前仓库相关内容形成一次方案，不要求 Issue 使用固定格式。
 
 静态计划保存可交接的实施选择，Runtime 在当前上下文保存状态、实际文件、测试结果、阻塞与报告事件。换 Agent 或机器时提供完整计划或可访问引用，并重新核对现场与 Runtime 证据；不从计划推测完成进度。计划不会扩大原始目标、验收或约束，发现新需求仅作为建议。保存计划仍使用用户指定路径，不自动改写 Issue，不建立运行状态服务。
-
-## G-lite v3.4 collaboration
-
-G-lite is this repository's GitHub-native collaboration protocol. It governs Issues, independent approval, CI, review, and human-owned merge; it is not a DevMap runtime dependency. Follow [AGENTS.md](AGENTS.md) and the [task template](.github/ISSUE_TEMPLATE/task.md). New work starts only while the Issue is OPEN and the independent Reviewer's approved event is fresh for the current Issue body.
-
-Developer opens a PR; jev-docs checks this documentation-only repository; an independent Reviewer reviews the current PR HEAD. Human Authority owns governance and final squash merge after the gates pass. This documentation check does not claim to test Jev or DevMap code; the v1.2 product has no runtime code.
