@@ -1,6 +1,6 @@
 # 报告协议 Mock 验收
 
-本文包含 20 项原有地图验收与 12 项 Execution Plan 验收。所有输入、路径和结果均为固定 Mock；它们不是当前仓库开发记录，也不声称执行了真实业务测试。重放时先读 devmap/SKILL.md 和 devmap/templates/map.md，以及 devmap/templates/execution-plan.md，再把各项“输入”提供给 Skill，按“期望输出”和“判据”验收。
+本文包含 20 项原有地图验收、12 项 Execution Plan 验收，以及 5 项来源识别与输出边界验收（场景 33～37）。所有输入、路径和结果均为固定 Mock；它们不是当前仓库开发记录，也不声称执行了真实业务测试。重放时先读 devmap/SKILL.md 和 devmap/templates/map.md，以及 devmap/templates/execution-plan.md，再把各项“输入”提供给 Skill，按“期望输出”和“判据”验收。
 
 旧地图场景中的 L0～L3 是投影后的摘要输入，不是静态计划 schema；完整静态输入见场景 21。计数单位统一为检查项。文中的 T=总数/通过/失败/待做 仅压缩输入；实际地图使用统一六列表。仓库自动检查未配置。Task 路径集合去重，总地图按全体 Task 路径并集计算。用户地图不得显示预期结果、完成条件或依赖明细。
 
@@ -476,7 +476,7 @@ Global Verification 定义 V账单、V导出为 Local 单项验证，V联合为 
 判据：生成场景 4 的完整 canonical Plan，再输出简洁开工地图；不询问用户如何拆 Task，不添加 E2E / 治理要求。以下 P1 为场景 22～30 的固定完整计划（所有路径、SHA、命令入口均为 Mock，不在本仓库执行）：
 
 - Plan ID / revision：billing / 1；Title：账单功能。
-- Source：场景 4 原文完整作为 Original Intent；Goal：账单查看、CSV 下载及帮助说明；Acceptance：三功能正确，账单与导出单项、下载联合、三项最终验收；Constraints / 不做范围：只改列出的功能，不引入新服务。
+- Source：场景 4 原文的完整必要摘录：用户要能查看账单、下载 CSV，帮助页说明这两项功能；账单与导出做单项检查，下载做联合验证，交付时按这三项功能做最终验收；只改列出的功能，不引入新服务。
 - Planned dependencies：空集合。
 - Plan Basis：base main，planning HEAD `1111111111111111111111111111111111111111`；账单组件 ownership 为现有业务模块，src/bills.ts 提供账单数据，src/export.ts 复用它，docs/help.md 已存在；入口是项目已有 `check-billing`、`check-export`、`check-download`、`check-help` 和人工三功能验收。
 - Approach：沿用账单模块，下载复用其数据，帮助独立同步；不更换数据接口。
@@ -568,4 +568,34 @@ P1 不含 Runtime。R0 单独输入：有现场证据证明三 Task 未实施、
 
 输入：P1 + R0，Approach 含完整技术取舍与入口说明，用户只调用 /devmap。
 
-判据：按场景 30 的精简结构呈现，不展开 Approach、Purpose、Changes、依赖、完整验证、Source 长文或版本标识。需要查看专业计划时可以另行提供，不能塞入默认地图。用户要求保存且给定路径时只保存静态 Plan 到该路径；未给路径才询问位置，不静默改写 Issue 或新增 .devmap/。Plan 不能授予开发、GitHub 写入或 merge 权限。
+判据：按场景 30 的精简结构呈现，不展开 Approach、Purpose、Changes、依赖、完整验证、Source 长文或版本标识。需要查看专业计划时可以另行提供，不能塞入默认地图。用户要求保存且给定路径时只保存静态 Plan 到该路径；未给路径才询问位置，不静默改写任务来源或新增 .devmap/。Plan 不能授予开发、远端写入或 merge 权限。
+
+## 33. 前文结构任意，存在 Execution 时直接复用
+
+输入：任务来源在 `## Execution` 之前是任意素材，例如一段聊天记录、没有固定字段的 Issue 正文，以及自定义标题 `## 随便写`。`## Execution` 内是完整 P1。现场与 P1 匹配，Runtime 为 R0。用户只调用 /devmap。
+
+判据：直接复用 P1，不因前文结构重新规划，不要求补 `## Background` 或任何固定前置字段。输出场景 30 的开工地图。不把前文标题当成计划的一部分。
+
+## 34. 没有 Background，存在 Execution 时正常复用
+
+输入：来源从普通段落开始，随后直接是 `## Execution` 与完整 P1。全文没有 `## Background`。现场匹配，Runtime 为 R0。用户只调用 /devmap。
+
+判据：与场景 33 一样复用 P1 并输出开工地图。缺少 `## Background` 不是缺计划，也不构成重规划理由。
+
+## 35. 有背景但没有 Execution 时自行规划
+
+输入：场景 4 的原文写成 Issue / PRD 风格的背景，其中用普通句子写了目标、验收和约束，但全文没有精确标题 `## Execution`。`## Execution Plan` 或其他更长标题也不算这个标记。当前可读文件与场景 4 相同。尚未开发。
+
+判据：这不是已有计划。按场景 21 自行形成完整计划并输出开工地图。不得把背景里的目标或验收句子识别成已有执行计划，也不要求用户先补上 `## Execution`。
+
+## 36. 识别到 Execution 后不写远端评论
+
+输入：场景 33 的来源。用户只调用 /devmap，没有要求保存或发布。
+
+判据：复用计划，并只在当前 Harness 对话输出地图。不创建、不更新 GitHub Issue comment 或 PR comment，不把地图或 Execution 内容写到其他远端位置，不改写任务来源。
+
+## 37. 地图只在当前对话输出
+
+输入：场景 34 的来源。用户先只调用 /devmap；随后明确要求保存，并给出一个路径。
+
+判据：调用时地图只出现在当前 Harness 对话，未指定位置前不写文件、不写远端。明确要求保存且给出路径后，只把静态 Plan 写到该路径；仍不自动写 GitHub Issue comment 或 PR comment。
