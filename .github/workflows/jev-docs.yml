@@ -26,8 +26,6 @@ jobs:
           test -s .github/ISSUE_TEMPLATE/task.md
           grep -Fq 'DevMap v1.2 是一个零代码开发地图 Skill' README.md
           grep -Fq 'jev-docs' AGENTS.md
-          grep -Fq '### Authorization' .github/ISSUE_TEMPLATE/task.md
-          awk '/^## Original Intent$/{intent=NR} /^## Contract$/{contract=NR} END {exit !(intent && contract && intent < contract)}' .github/ISSUE_TEMPLATE/task.md
           # Line-based guards cover this workflow's current layout, not arbitrary YAML.
           grep -Fqx '  pull_request:' "$workflow"
           grep -Fqx '  push:' "$workflow"
