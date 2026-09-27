@@ -1,17 +1,13 @@
-# Agent protocol
-
-Jev remains a separate product; this repository has no G-lite runtime or local task state. Its earlier protocol adoption was G-lite v3.4. The managed block below is the current G-lite protocol.
-
-The consumer-owned required check is `jev-docs`. It verifies this documentation-only repository and does not claim to test Jev code. Add code tests only under a separate approved task when code exists.
-
 <!-- g-lite:managed protocol start -->
+G-lite Protocol-Version: v3.7.3
+
 # Agent protocol
 
 This repository uses the G-lite GitHub-native protocol.
 
 ## Contract
 
-For new tasks, record Original Intent (the user's words or a fixed PRD reference) before the Issue Contract containing Goal, Acceptance, Out of scope, and Authorization. This version does not require reconciler to audit older consumers for Original Intent.
+For new tasks, record Original Intent (the user's words or a fixed PRD reference) before the Issue Contract containing Context, Goal, observable Acceptance, Constraints / Out of scope, and Authorization. Execution Plan is optional and may be empty for any task size; G-lite neither requires it nor parses its contents. Without a plan, Developer uses current repository facts and Issue goals to implement and verify. Plan edits follow the same Issue body freshness rules. This version does not require reconciler to audit older consumers for Original Intent.
 
 Before development and again before PR review, read the current OPEN Issue Contract, author/editor, lastEditedAt, current approved label and latest approved label event (actor and timestamp). Missing approval is INVALID; lastEditedAt absent or <= approvedAt is FRESH; later edits are STALE. Stop if facts cannot be verified or authorization is invalid/stale. The Actor that writes or materially edits the current Contract version cannot approve it. Reauthorization requires independent fresh approved; do not cache authorization.
 
@@ -74,4 +70,9 @@ The default branch requires PRs, at least one independent approval, stale review
    Without a strict latest-base Ruleset, main can advance between the last read and merge.
 6. Ask Human Authority for scope changes, unverifiable identity/authorization/gates, governance or high-impact actions,
    or about three failures on one path without new evidence. Continue routine CI and Review rework within scope.
+
 <!-- g-lite:managed protocol end -->
+
+Jev remains a separate product.
+
+The consumer-owned required check is `jev-docs`. It verifies this documentation-only repository and does not claim to test Jev code. Add code tests only under a separate approved task when code exists.
