@@ -1,4 +1,4 @@
-name: jev-docs
+name: devmap-docs
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  jev-docs:
+  devmap-docs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -17,20 +17,20 @@ jobs:
         with:
           fetch-depth: 1
           persist-credentials: false
-      - name: Check Jev docs and Issue protocol
+      - name: Check DevMap docs and Issue protocol
         run: |
           set -eu
-          workflow=.github/workflows/jev-docs.yml
+          workflow=.github/workflows/devmap-docs.yml
           test -s README.md
           test -s AGENTS.md
           test -s .github/ISSUE_TEMPLATE/task.md
           grep -Fq 'DevMap v1.2 是一个零代码开发地图 Skill' README.md
-          grep -Fq 'jev-docs' AGENTS.md
+          grep -Fq 'devmap-docs' AGENTS.md
           # Line-based guards cover this workflow's current layout, not arbitrary YAML.
           grep -Fqx '  pull_request:' "$workflow"
           grep -Fqx '  push:' "$workflow"
           grep -Fqx '    branches: [main]' "$workflow"
-          grep -Fqx '  jev-docs:' "$workflow"
+          grep -Fqx '  devmap-docs:' "$workflow"
           grep -Fqx '    timeout-minutes: 10' "$workflow"
           grep -Fqx '          fetch-depth: 1' "$workflow"
           grep -Fqx '          persist-credentials: false' "$workflow"

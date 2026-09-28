@@ -73,6 +73,4 @@ The default branch requires PRs, at least one independent approval, stale review
 
 <!-- g-lite:managed protocol end -->
 
-Jev remains a separate product.
-
-The consumer-owned required check is `jev-docs`. It verifies this documentation-only repository and does not claim to test Jev code. Add code tests only under a separate approved task when code exists.
+The consumer-owned required check is `devmap-docs`. It verifies this documentation-only repository and does not claim to test code. Add code tests only under a separate approved task when code exists.
