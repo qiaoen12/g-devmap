@@ -73,4 +73,4 @@ The default branch requires PRs, at least one independent approval, stale review
 
 <!-- g-lite:managed protocol end -->
 
-The consumer-owned required check is `devmap-docs`. It verifies this documentation-only repository and does not claim to test code. Add code tests only under a separate approved task when code exists.
+The consumer-owned required check is `devmap-docs`. It runs the facts script unit tests (`python3 -m unittest discover -s tests -v`) and the document length checks for `devmap/SKILL.md` and `devmap/templates/map.md`, alongside the workflow safety assertions.

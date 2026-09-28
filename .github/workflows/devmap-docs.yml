@@ -17,6 +17,9 @@ jobs:
         with:
           fetch-depth: 1
           persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
       - name: Check DevMap docs and Issue protocol
         run: |
           set -eu
@@ -24,7 +27,9 @@ jobs:
           test -s README.md
           test -s AGENTS.md
           test -s .github/ISSUE_TEMPLATE/task.md
-          grep -Fq 'DevMap v1.2 是一个零代码开发地图 Skill' README.md
+          test -s devmap/SKILL.md
+          test -s devmap/templates/map.md
+          test -s devmap/scripts/devmap_facts.py
           grep -Fq 'devmap-docs' AGENTS.md
           # Line-based guards cover this workflow's current layout, not arbitrary YAML.
           grep -Fqx '  pull_request:' "$workflow"
@@ -85,3 +90,19 @@ jobs:
             printf '%s\n' 'Workflow permissions must be limited to contents: read.' >&2
             exit 1
           fi
+      - name: Run facts script unit tests
+        run: python3 -m unittest discover -s tests -v
+      - name: Check document length limits
+        run: |
+          # Limit unit: Unicode characters = Python len() of the whole UTF-8-decoded file, frontmatter included.
+          python3 - <<'PY'
+          import sys
+          limits = {"devmap/SKILL.md": 4000, "devmap/templates/map.md": 2000}
+          failed = False
+          for path, limit in limits.items():
+              with open(path, encoding="utf-8") as handle:
+                  count = len(handle.read())
+              print(f"{path}: {count}/{limit} characters")
+              failed = failed or count > limit
+          sys.exit(1 if failed else 0)
+          PY
