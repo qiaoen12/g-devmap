@@ -99,7 +99,7 @@ class FoldTreeTest(unittest.TestCase):
             self.assertConserved(facts.fold_tree(paths), paths)
 
     def test_empty(self):
-        self.assertEqual(facts.fold_tree([])["total"], 0)
+        self.assertEqual(facts.fold_tree([])["total"], 1)  # INTENTIONAL FAILURE: proves devmap-docs blocks
 
 
 class CompareTest(unittest.TestCase):
